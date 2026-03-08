@@ -7,6 +7,7 @@ import '../../settings/ui/settings_page.dart';
 import '../../dashboard/ui/dashboard_page.dart';
 import '../models/task_model.dart';
 import '../providers/task_provider.dart';
+import '../../../core/services/widget_service.dart';
 
 class TaskListPage extends ConsumerStatefulWidget {
   const TaskListPage({super.key});
@@ -705,6 +706,7 @@ class _TaskListPageState extends ConsumerState<TaskListPage> {
   @override
   Widget build(BuildContext context) {
     ref.watch(badgeProvider);
+    ref.watch(widgetProvider);
     final filteredTasks = ref.watch(filteredTaskListProvider);
     final taskListAsync = ref.watch(taskListProvider);
     final scheme = Theme.of(context).colorScheme;

@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/services/firestore_service.dart';
 import '../../../core/services/notification_service.dart';
 import '../../../core/services/badge_service.dart';
+import '../../../core/services/widget_service.dart';
 import '../../../features/auth/providers/auth_state_provider.dart';
 import '../models/task_model.dart';
 
@@ -110,9 +111,15 @@ final filteredTaskListProvider = Provider<List<TaskModel>>((ref) {
 
 final badgeProvider = Provider<void>((ref) {
   final tasks = ref.watch(filteredTaskListProvider);
-  final incomplete =
-      tasks.where((t) => t.status != TaskStatus.done).length;
+  final incomplete = tasks.where((t) => t.status != TaskStatus.done).length;
   BadgeService().updateBadge(incomplete);
+});
+
+final widgetProvider = Provider<void>((ref) {
+  final tasksAsync = ref.watch(taskListProvider);
+  tasksAsync.whenData((tasks) {
+    WidgetService().updateWidget(tasks);
+  });
 });
 
 class TaskNotifier extends StateNotifier<AsyncValue<void>> {
