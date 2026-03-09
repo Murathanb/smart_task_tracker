@@ -37,11 +37,29 @@
 |:---:|:---:|:---:|
 | ![](screenshots/6_add_task.png) | ![](screenshots/11_dashboard.png) | ![](screenshots/7_settings_light.png) |
 
-| Dark Mode | Filter | Dark Settings |
+| Dark Mode | Filter | iOS Widget |
 |:---:|:---:|:---:|
-| ![](screenshots/8_task_list_dark.png) | ![](screenshots/9_filter_dark.png) | ![](screenshots/10_settings_dark.png) |
+| ![](screenshots/8_task_list_dark.png) | ![](screenshots/9_filter_dark.png) | ![](screenshots/12_widget.png) |
 
 </div>
+
+---
+
+## 🔲 iOS Home Screen Widget
+
+Smart Task Tracker includes a native **iOS Widget Extension** built with SwiftUI, allowing users to monitor their tasks directly from the home screen — no need to open the app.
+
+**Small widget** shows:
+- Overall completion percentage with a progress bar
+- Total vs completed task count
+
+**Medium widget** shows:
+- Completion percentage + progress bar
+- Up to 3 upcoming incomplete tasks sorted by priority
+- Overdue indicators per task
+- Color-coded priority bars (High / Medium / Low)
+
+Data is synced from the Flutter app via **App Groups** (`UserDefaults`) and refreshes every 30 minutes automatically.
 
 ---
 
@@ -60,6 +78,7 @@
 - 🌍 **Localization** — Full Turkish & English support (TR/EN)
 - 🌙 **Dark Mode** — System-aware dark/light theme
 - 🚀 **Onboarding** — 3-page animated onboarding for first-time users
+- 🔲 **iOS Widget** — Native SwiftUI widget (small & medium) with live task data
 
 ---
 
@@ -77,6 +96,8 @@
 | Charts | fl_chart |
 | Animations | animate_do |
 | Localization | Flutter l10n (ARB) |
+| iOS Widget | SwiftUI + WidgetKit |
+| Widget Data Bridge | home_widget + App Groups |
 | Architecture | Feature-first, Service layer |
 
 ---
@@ -87,7 +108,7 @@
 lib/
 ├── core/
 │   ├── providers/          # Global providers (settings, theme, locale)
-│   └── services/           # Auth, Firestore, Hive, Notifications, Badge
+│   └── services/           # Auth, Firestore, Hive, Notifications, Badge, Widget
 ├── features/
 │   ├── auth/               # Login, Register, Google Sign-In
 │   ├── tasks/              # Task list, CRUD, providers, models
@@ -95,6 +116,10 @@ lib/
 │   ├── settings/           # Theme, language preferences
 │   └── onboarding/         # First-launch onboarding flow
 └── l10n/                   # TR + EN localization files
+
+ios/
+└── TaskWidgetExtension/    # Native SwiftUI Widget (WidgetKit)
+    └── TaskWidget.swift
 ```
 
 ---
@@ -106,6 +131,7 @@ lib/
 - Flutter 3.0+
 - Firebase project with Firestore & Auth enabled
 - Google Sign-In configured
+- Xcode 14+ (for Widget Extension)
 
 ### Installation
 
@@ -116,6 +142,9 @@ cd smart_task_tracker
 
 # Install dependencies
 flutter pub get
+
+# Install iOS pods
+cd ios && pod install && cd ..
 
 # Run the app
 flutter run
@@ -144,6 +173,7 @@ connectivity_plus: ^6.1.4     # Network status
 fl_chart: ^0.69.0             # Charts & graphs
 flutter_slidable: ^3.1.1      # Swipe gestures
 animate_do: ^3.3.4            # Animations
+home_widget: ^0.7.0           # Flutter ↔ iOS Widget bridge
 ```
 
 ---
