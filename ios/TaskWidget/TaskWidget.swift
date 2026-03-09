@@ -1,8 +1,3 @@
-//
-//  TaskWidget.swift
-//  TaskWidget
-//
-
 import WidgetKit
 import SwiftUI
 
@@ -89,8 +84,8 @@ extension Color {
 func priorityColor(_ priority: String) -> Color {
     switch priority {
     case "high": return .priorityHigh
-    case "low": return .priorityLow
-    default: return .priorityMedium
+    case "low":  return .priorityLow
+    default:     return .priorityMedium
     }
 }
 
@@ -104,53 +99,45 @@ struct SmallWidgetView: View {
     }
 
     var body: some View {
-        ZStack {
-            Color.appDark
-            VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.appRed)
-                        .font(.system(size: 12))
-                    Text("TaskFlow")
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundColor(.white)
-                    Spacer()
-                }
-
-                Spacer()
-
-                Text("\(completionPercent)%")
-                    .font(.system(size: 36, weight: .black))
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.appRed)
+                    .font(.system(size: 12))
+                Text("TaskFlow")
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(.white)
+                Spacer()
+            }
 
-                Text("tamamlandı")
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.white.opacity(0.5))
+            Spacer()
 
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.white.opacity(0.15))
-                            .frame(height: 4)
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.priorityLow)
-                            .frame(
-                                width: geo.size.width * CGFloat(completionPercent) / 100,
-                                height: 4
-                            )
-                    }
-                }
-                .frame(height: 4)
+            Text("\(completionPercent)%")
+                .font(.system(size: 36, weight: .black))
+                .foregroundColor(.white)
 
-                HStack {
-                    Text("\(entry.completedCount)/\(entry.totalCount) görev")
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(.white.opacity(0.5))
-                    Spacer()
+            Text("tamamlandı")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.white.opacity(0.5))
+
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color.white.opacity(0.15))
+                        .frame(height: 4)
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color.priorityLow)
+                        .frame(width: geo.size.width * CGFloat(completionPercent) / 100, height: 4)
                 }
             }
-            .padding(14)
+            .frame(height: 4)
+
+            Text("\(entry.completedCount)/\(entry.totalCount) görev")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.white.opacity(0.5))
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -164,98 +151,91 @@ struct MediumWidgetView: View {
     }
 
     var body: some View {
-        ZStack {
-            Color.appDark
-            HStack(spacing: 12) {
-                // Sol: İstatistik
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.appRed)
-                            .font(.system(size: 11))
-                        Text("TaskFlow")
-                            .font(.system(size: 11, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-
-                    Spacer()
-
-                    Text("\(completionPercent)%")
-                        .font(.system(size: 30, weight: .black))
+        HStack(spacing: 12) {
+            // Sol: İstatistik
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 4) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.appRed)
+                        .font(.system(size: 11))
+                    Text("TaskFlow")
+                        .font(.system(size: 11, weight: .bold))
                         .foregroundColor(.white)
-
-                    Text("tamamlandı")
-                        .font(.system(size: 9, weight: .medium))
-                        .foregroundColor(.white.opacity(0.5))
-
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(Color.white.opacity(0.15))
-                                .frame(height: 3)
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(Color.priorityLow)
-                                .frame(
-                                    width: geo.size.width * CGFloat(completionPercent) / 100,
-                                    height: 3
-                                )
-                        }
-                    }
-                    .frame(height: 3)
-
-                    Text("\(entry.totalCount - entry.completedCount) bekliyor")
-                        .font(.system(size: 9))
-                        .foregroundColor(.white.opacity(0.4))
                 }
-                .frame(maxWidth: .infinity)
 
-                // Ayırıcı
-                Rectangle()
-                    .fill(Color.white.opacity(0.08))
-                    .frame(width: 1)
+                Spacer()
 
-                // Sağ: Task listesi
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("YAKLAŞAN")
-                        .font(.system(size: 9, weight: .bold))
-                        .foregroundColor(.white.opacity(0.3))
-                        .kerning(0.5)
+                Text("\(completionPercent)%")
+                    .font(.system(size: 30, weight: .black))
+                    .foregroundColor(.white)
 
-                    if entry.tasks.isEmpty {
-                        Spacer()
-                        Text("Görev yok 🎉")
-                            .font(.system(size: 11))
-                            .foregroundColor(.white.opacity(0.4))
-                        Spacer()
-                    } else {
-                        ForEach(entry.tasks) { task in
-                            HStack(spacing: 6) {
-                                RoundedRectangle(cornerRadius: 2)
-                                    .fill(priorityColor(task.priority))
-                                    .frame(width: 3, height: 28)
+                Text("tamamlandı")
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.white.opacity(0.5))
 
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(task.title)
-                                        .font(.system(size: 11, weight: .medium))
-                                        .foregroundColor(.white)
-                                        .lineLimit(1)
-
-                                    if task.isOverdue {
-                                        Text("Gecikmiş")
-                                            .font(.system(size: 9))
-                                            .foregroundColor(.priorityHigh)
-                                    }
-                                }
-                                Spacer()
-                            }
-                        }
-                        Spacer()
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.white.opacity(0.15))
+                            .frame(height: 3)
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.priorityLow)
+                            .frame(width: geo.size.width * CGFloat(completionPercent) / 100, height: 3)
                     }
                 }
-                .frame(maxWidth: .infinity)
+                .frame(height: 3)
+
+                Text("\(entry.totalCount - entry.completedCount) bekliyor")
+                    .font(.system(size: 9))
+                    .foregroundColor(.white.opacity(0.4))
             }
-            .padding(14)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            // Ayırıcı
+            Rectangle()
+                .fill(Color.white.opacity(0.08))
+                .frame(width: 1)
+
+            // Sağ: Task listesi
+            VStack(alignment: .leading, spacing: 6) {
+                Text("YAKLAŞAN")
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundColor(.white.opacity(0.3))
+                    .kerning(0.5)
+
+                if entry.tasks.isEmpty {
+                    Spacer()
+                    Text("Görev yok 🎉")
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.4))
+                    Spacer()
+                } else {
+                    ForEach(entry.tasks) { task in
+                        HStack(spacing: 6) {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(priorityColor(task.priority))
+                                .frame(width: 3, height: 28)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(task.title)
+                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(.white)
+                                    .lineLimit(1)
+                                if task.isOverdue {
+                                    Text("Gecikmiş")
+                                        .font(.system(size: 9))
+                                        .foregroundColor(.priorityHigh)
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -266,12 +246,9 @@ struct TaskWidgetEntryView: View {
 
     var body: some View {
         switch family {
-        case .systemSmall:
-            SmallWidgetView(entry: entry)
-        case .systemMedium:
-            MediumWidgetView(entry: entry)
-        default:
-            MediumWidgetView(entry: entry)
+        case .systemSmall:  SmallWidgetView(entry: entry)
+        case .systemMedium: MediumWidgetView(entry: entry)
+        default:            MediumWidgetView(entry: entry)
         }
     }
 }
@@ -282,12 +259,10 @@ struct TaskWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TaskProvider()) { entry in
-            if #available(iOS 17.0, *) {
-                TaskWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                TaskWidgetEntryView(entry: entry)
-            }
+            TaskWidgetEntryView(entry: entry)
+                .containerBackground(for: .widget) {
+                    Color(red: 0.11, green: 0.11, blue: 0.13)
+                }
         }
         .configurationDisplayName("TaskFlow")
         .description("Görevlerini takip et.")
