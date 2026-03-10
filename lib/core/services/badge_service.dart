@@ -1,30 +1,19 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class BadgeService {
   static final BadgeService _instance = BadgeService._();
   factory BadgeService() => _instance;
   BadgeService._();
 
-  final FlutterLocalNotificationsPlugin _plugin =
-      FlutterLocalNotificationsPlugin();
-
   Future<void> updateBadge(int count) async {
-    await _plugin.show(
-      0,
-      null,
-      null,
-      NotificationDetails(
-        iOS: DarwinNotificationDetails(
-          presentAlert: false,
-          presentBadge: true,
-          presentSound: false,
-          badgeNumber: count,
-        ),
-      ),
-    );
+    if (count > 0) {
+      FlutterAppBadger.updateBadgeCount(count);
+    } else {
+      FlutterAppBadger.removeBadge();
+    }
   }
 
   Future<void> clearBadge() async {
-    await updateBadge(0);
+    FlutterAppBadger.removeBadge();
   }
 }

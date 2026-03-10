@@ -13,6 +13,7 @@ class NotificationService {
 
   Future<void> init() async {
     tz_data.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Istanbul'));
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
@@ -50,7 +51,9 @@ class NotificationService {
       dueDate.subtract(const Duration(hours: 1)),
       tz.local,
     );
-    if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) return;
+
+    final now = tz.TZDateTime.now(tz.local);
+    if (scheduledDate.isBefore(now)) return;
 
     await _plugin.zonedSchedule(
       id,

@@ -37,11 +37,25 @@
 |:---:|:---:|:---:|
 | ![](screenshots/6_add_task.png) | ![](screenshots/11_dashboard.png) | ![](screenshots/7_settings_light.png) |
 
-| Dark Mode | Filter | iOS Widget |
+| Dark Mode | Filter | Dark Settings |
 |:---:|:---:|:---:|
-| ![](screenshots/8_task_list_dark.png) | ![](screenshots/9_filter_dark.png) | ![](screenshots/12_widget.png) |
+| ![](screenshots/8_task_list_dark.png) | ![](screenshots/9_filter_dark.png) | ![](screenshots/10_settings_dark.png) |
+
+| iOS Widget | Notification & Badge |
+|:---:|:---:|
+| ![](screenshots/12_widget.png) | ![](screenshots/13_notification_badge.png) |
 
 </div>
+
+---
+
+## 🔔 Notifications & Badge
+
+Smart Task Tracker keeps you on top of your tasks with a native iOS notification and badge system.
+
+**Push Notifications** — A scheduled local notification is automatically sent **1 hour before** a task's due date, reminding you to complete it on time. Notifications are cancelled automatically when a task is marked as done.
+
+**App Icon Badge** — The app icon displays a live count of all incomplete tasks using `flutter_app_badger`, updating in real time as tasks are added, completed, or deleted. The badge clears automatically when all tasks are finished.
 
 ---
 
@@ -92,6 +106,7 @@ Data is synced from the Flutter app via **App Groups** (`UserDefaults`) and refr
 | Local Database | Hive 2.2 |
 | Authentication | Firebase Auth + Google Sign-In |
 | Notifications | flutter_local_notifications |
+| Badge | flutter_app_badger |
 | Connectivity | connectivity_plus |
 | Charts | fl_chart |
 | Animations | animate_do |
@@ -169,6 +184,7 @@ firebase_auth: ^5.5.0         # Authentication
 google_sign_in: ^6.2.1        # Google OAuth
 hive_flutter: ^1.1.0          # Local offline cache
 flutter_local_notifications   # Push notifications
+flutter_app_badger: ^1.5.0    # App icon badge
 connectivity_plus: ^6.1.4     # Network status
 fl_chart: ^0.69.0             # Charts & graphs
 flutter_slidable: ^3.1.1      # Swipe gestures
